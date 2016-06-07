@@ -165,27 +165,18 @@ def load_field_bin(filename, N1, N2, N3):
         stat['w']   = dumm[:,:,:,2]
     return stat
 
-def load_BLfieldstat_bin(filename, N1, N2, N3):
-    N4 = 11
+def load_BLfieldstat_bin(filename, N1, N2, N3, N4=11, Nload=11):
     stat = {}
     with open(filename, 'rb') as binfile:
         stat['nsamp'] = np.fromfile(binfile, dtype=np.int32, count=1)
         stat['time_interv'] = np.fromfile(binfile, dtype=np.float32, count=1)
         stat['time_incurr'] = np.fromfile(binfile, dtype=np.float32, count=1)
-        dumm = np.fromfile(binfile, dtype=np.float64)
-        shape = (N1,N2,N3,N4)
+        dumm = np.fromfile(binfile, dtype=np.float64, count=N1*N2*N3*Nload)
+        shape = (N1,N2,N3,Nload)
         dumm = dumm.reshape(shape, order='F')
-        stat['u']   = dumm[:,:,:,0]
-        stat['v']   = dumm[:,:,:,1]
-        stat['w']   = dumm[:,:,:,2]
-        stat['uu']  = dumm[:,:,:,3]
-        stat['vv']  = dumm[:,:,:,4]
-        stat['ww']  = dumm[:,:,:,5]
-        stat['uv']  = dumm[:,:,:,6]
-        stat['uw']  = dumm[:,:,:,7]
-        stat['vw']  = dumm[:,:,:,8]
-        stat['p']   = dumm[:,:,:,9]
-        stat['wst'] = dumm[:,:,:,10]
+        names = ['u', 'v', 'w', 'uu', 'vv', 'ww', 'uv', 'uw', 'vw', 'p', 'wst']
+        for i in range(Nload):
+            stat[names[i]] = dumm[:,:,:,i]
     return stat
 
 def load_BLfield_real(filename, **kwargs):

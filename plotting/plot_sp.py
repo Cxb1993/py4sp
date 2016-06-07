@@ -4,6 +4,7 @@ import load_sp as lsp
 from load_sp import load_plane
 import os
 from matplotlib import cm 
+from matplotlib.widgets import Slider
 
 def plot_turbines_topview(filename):
     turbines = np.loadtxt(filename, skiprows=2)
@@ -96,6 +97,29 @@ def plot_planeyz(filename, Ny, Nz):
 def plot_planexz(filename, Nx, Nz):
     return 0
 
+def plot3dgui(data,**kwargs):
+
+    fig = plt.figure()
+    ax = plt.gca()
+
+    p = ax.imshow(data[:,:,0], interpolation='none')
+    
+    # Add the slider
+    plt.subplots_adjust(bottom=.25)
+    slider_ax = plt.axes([.25, .15, .5, .03])
+    
+    slider = Slider(slider_ax, 'Index', 0, data.shape[2], valinit=0, valfmt='%0.0f')
+
+    def update(val):
+        index = val
+        p.set_data(data[:,:,index])
+        fig.canvas.draw()
+
+    slider.on_changed(update)
+    plt.show()
+    return p, slider
+
+
 def cube_show_slider(cube, axis=2, **kwargs):
     import matplotlib.pyplot as plt
     from matplotlib.widgets import Slider, Button, RadioButtons
@@ -108,7 +132,7 @@ def cube_show_slider(cube, axis=2, **kwargs):
     fig.subplots_adjust(left=0.25, bottom=0.25)
 
     # select first image
-    s = [slice(0, 1) if i == axis else slice(None) for i in xrange(3)]
+    s = [slice(0, 1) if i == axis else slice(None) for i in range(3)]
     im = cube[s].squeeze()
 
     # display image
@@ -117,11 +141,11 @@ def cube_show_slider(cube, axis=2, **kwargs):
     ax = fig.add_axes([0.25, 0.1, 0.65, 0.03], axisbg=axcolor)
         
     slider = Slider(ax, 'Axis %i index' % axis, 0, cube.shape[axis] - 1,
-                                        valinit=0, valfmt='%i')
+                                        valinit=5, valfmt='%i')
             
     def update(val):
         ind = int(slider.val)
-        s = [slice(ind, ind + 1) if i == axis else slice(None) for i in xrange(3)]
+        s = [slice(ind, ind + 1) if i == axis else slice(None) for i in range(3)]
         im = cube[s].squeeze()
         l.set_data(im, **kwargs)
         fig.canvas.draw()

@@ -73,13 +73,18 @@ def load_BLcc(filename):
     BLinst['vw'] = dummy[:,9]
     return BLinst
 
-def load_plane(filename, N1, N2):
+def load_plane_ascii(filename, N1, N2):
     # Load the data into memory
     u = np.loadtxt(filename)
     # Cast into vector
     u = np.reshape(u, [np.size(u), 1])
     # Rearrange, taking into account Fortran memory layout
     u = np.reshape(u, [N1, N2], order='F')
+    return u
+
+def load_plane(filename, N1, N2):
+    with open(filename,'rb') as binfile:
+        u = np.fromfile(binfile, dtype=np.float64).reshape((N1, N2), order='F')
     return u
 
 def load_spectral_field(filename, N1, N2, N3, N4):

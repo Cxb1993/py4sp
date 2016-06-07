@@ -8,13 +8,13 @@
 
 import numpy as np
 
-Lz = 0.5
-Nz = 192/2
+Lz = 1
+Nz = 288 
 Nz2 = 2*Nz+1
 
 z = np.linspace(0,Lz,Nz2)
 
-filename = 'ZMESH_96'
+filename = 'ZMESH_288'
 with open(filename, 'w') as file:
     file.write(str(Nz2)+'\n')
     for k in range(z.size):

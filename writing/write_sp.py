@@ -1,6 +1,52 @@
 import numpy as np
 import fft_sp as fft
 
+def create_constant_field(filename, Nx, Ny, Nz, Lx, Ly, Lz, value):
+    """
+    function create_constant_field
+
+    Parameters
+    -------------
+    filename: str
+        filename to which field will be written
+    Nx, Ny, Nz: int
+        grid size
+    Lx, Ly, Lz:
+        field size
+    value: 
+        constant value throughout field
+    """
+    print('##########################################')
+    print('# Writing field to file ', filename)
+    print('# ------------------------------------------')
+    print('# Field information')
+    print('# ------------------------------------------')
+    print('# Lx    = ', Lx)
+    print('# Ly    = ', Ly)
+    print('# Nx2   = ', Nx)
+    print('# Ny    = ', Ny)
+    print('# Nz    = ', Nz)
+    print('##########################################')
+
+    with open(filename, 'wb') as binfile:
+        np.array([0]).astype(dtype=np.float64).tofile(binfile)
+        np.array([Lx]).astype(dtype=np.float64).tofile(binfile)
+        np.array([Ly]).astype(dtype=np.float64).tofile(binfile)
+        np.array([Nx]).astype(dtype=np.int32).tofile(binfile)
+        np.array([Ny]).astype(dtype=np.int32).tofile(binfile)
+        np.array([Nz]).astype(dtype=np.int32).tofile(binfile)
+        np.array([0]).astype(dtype=np.float64).tofile(binfile)
+
+        shapeu = (Nx, Ny, Nz)
+        shapew = (Nx, Ny, Nz-1)
+        u = fft.r2c(np.ones(shapeu, dtype=np.float64)*value, Nx, Ny).astype(np.complex128)
+        v = fft.r2c(np.zeros(shapeu, dtype=np.float64), Nx, Ny).astype(np.complex128)
+        w = fft.r2c(np.zeros(shapew, dtype=np.float64), Nx, Ny).astype(np.complex128)
+
+        u.reshape((u.size,1), order='F').tofile(binfile)
+        v.reshape((v.size,1), order='F').tofile(binfile)
+        w.reshape((w.size,1), order='F').tofile(binfile)
+
 def write_BLfield(field, filename, spectral=False):
     """
     function write_BLfield

@@ -112,7 +112,7 @@ def load_windpower(filename,Nrows,Ncols):
     # Reshape data into windfarm format, this assumes the turbines are numbered row per row
     power = np.zeros((Nrows, Ncols, time.size))
     for num in range(Nrows*Ncols):
-        row = int(num)/int(Ncols)
+        row = int(num)//int(Ncols)
         col = num - row*Ncols
         power[row, col, :] = powerdum[:, num]
     return time, power
@@ -142,7 +142,7 @@ def load_BLfieldstat(filename, N1, N2, N3):
 def load_1D_spectrum(filename, L, N, Nz):
     dummy = np.loadtxt(filename, comments='%')
     spec = {}
-    spec['k']  = np.array([(i)/L*(2*np.pi) for i in range(N/2)])
+    spec['k']  = np.array([(i)/L*(2*np.pi) for i in range(N//2)])
     spec['z']  = dummy[0:Nz-1,0]
     spec['uu'] = dummy[0:Nz-1,1:]
     spec['vv'] = dummy[Nz:2*Nz-1,1:]

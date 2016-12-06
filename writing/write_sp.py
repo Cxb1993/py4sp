@@ -95,9 +95,9 @@ def write_BLfield(field, filename, spectral=False):
             vv =fft.r2c(field['v'], field['Nx2'], field['Ny']).astype(np.complex128)
             ww =fft.r2c(field['w'], field['Nx2'], field['Ny']).astype(np.complex128)
             # Reshape and write to file
-            uu = uu.reshape((uu.size,1), order='F').tofile(binfile)
-            vv = vv.reshape((vv.size,1), order='F').tofile(binfile)
-            ww = ww.reshape((ww.size,1), order='F').tofile(binfile)
+            uu.reshape((uu.size,1), order='F').tofile(binfile)
+            vv.reshape((vv.size,1), order='F').tofile(binfile)
+            ww.reshape((ww.size,1), order='F').tofile(binfile)
 
 
 

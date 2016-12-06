@@ -165,10 +165,15 @@ def load_field_bin(filename, N1, N2, N3):
         stat['w']   = dumm[:,:,:,2]
     return stat
 
-def load_3Dvelocity(filename, N1, N2, N3):
+def load_3Dvelocity(filename, N1, N2, N3, precision='double'):
     shape = (N1, N2, N3, 3)
+    if precision=='double':
+        dtype = np.float64
+    elif precision=='single':
+        print('Single precision')
+        dtype = np.float32
     with open(filename, 'rb') as binfile:
-        velocity = np.fromfile(binfile, dtype=np.float64).reshape(shape)
+        velocity = np.fromfile(binfile, dtype=dtype).reshape(shape, order='F')
     return velocity
 
 def load_BLfieldstat_bin(filename, N1, N2, N3, N4=11, Nload=11):

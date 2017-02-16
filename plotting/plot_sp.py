@@ -1,10 +1,42 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import load_sp as lsp
-from load_sp import load_plane
+import matplotlib.pyplot as plt
 import os
-from matplotlib import cm 
-from matplotlib.widgets import Slider
+import windfarm as wf
+
+def set_equal_tight(ax=plt.gca()):
+    ax.set_aspect('equal')
+    ax.autoscale(tight=True)
+
+def plot_field_turbines(fieldfile='BL_field.dat', key='u', k=16):
+    bl = lsp.load_BLfield_real(fieldfile)
+    field = bl[key][:,:,k]
+    farm = wf.Windfarm()
+
+    plt.figure()
+    plt.imshow(np.flipud(np.transpose(field)), extent=(0, bl['Lx'], 0, bl['Ly']))
+    farm.plot_turbines()
+    plt.xlabel(r'$x$')
+    plt.ylabel(r'$y$')
+    plt.xlim((0, bl['Lx']))
+    plt.ylim((0, bl['Ly']))
+    
+
+def plot_bl(bl, kplot=14, iplot=0, jplot=0, key='u', Lz = 1):
+    plt.figure()
+
+    plt.subplot(311)
+    plt.imshow(np.flipud(np.transpose(bl[key][:,:,kplot])), extent=(0, bl['Lx'], 0, bl['Ly']))
+    plt.colorbar()
+
+    plt.subplot(312)
+    plt.imshow(np.flipud(np.transpose(bl[key][iplot,:,:])), extent=(0, bl['Ly'], 0, Lz))
+    plt.colorbar()
+
+    plt.subplot(313)
+    plt.imshow(np.flipud(np.transpose(bl[key][:,jplot,:])), extent=(0, bl['Lx'], 0, Lz))
+    plt.colorbar()
+    
 
 def plot_turbines_topview(filename):
     turbines = np.loadtxt(filename, skiprows=2)
@@ -15,7 +47,7 @@ def plot_turbines_topview(filename):
         ycoords = np.array([ycoord - radius, ycoord + radius])
         plt.plot((xcoord, xcoord), ycoords, 'k', lw=2)
 
-def movie_xy(k, dt, var='u', setuppath='./../', **kwargs):
+def movie_xy(k, dt, var='u', setuppath='./../', pausetime=0.1, **kwargs):
     """
     function movie_xy
 
@@ -38,10 +70,7 @@ def movie_xy(k, dt, var='u', setuppath='./../', **kwargs):
     tstop: float, optional
         final time for movie snapshots
     """
-    basename = var+'_zplane_k'+"{0:03d}".format(k)+'_t_'
     setup = lsp.setup(setuppath)
-    plt.figure()
-    plt.ion()
     if 'clim' in kwargs:
         cl = kwargs['clim']
     else:
@@ -57,10 +86,10 @@ def movie_xy(k, dt, var='u', setuppath='./../', **kwargs):
         for tim in t:
             plt.clf()
             print('Plotting t =', tim)
-            filename = basename+"{:4.4f}".format(tim)+".dat"
+            filename = var+'_zplane_k{:03d}_t_{:4.4f}.dat'.format(k, tim)
             plt.title(tim)
             plot_planexy(filename,show=False,prin=False,clim=cl,cm=cmap)
-            plt.pause(0.1)
+            plt.pause(pausetime)
     else:
         print('Automatic timeloop not yet implemented')
 
@@ -96,79 +125,6 @@ def plot_planeyz(filename, Ny, Nz):
 
 def plot_planexz(filename, Nx, Nz):
     return 0
-
-def plot3dgui(data,**kwargs):
-
-    fig = plt.figure()
-    ax = plt.gca()
-
-    p = ax.imshow(data[:,:,0], interpolation='none')
-    
-    # Add the slider
-    plt.subplots_adjust(bottom=.25)
-    slider_ax = plt.axes([.25, .15, .5, .03])
-    
-    slider = Slider(slider_ax, 'Index', 0, data.shape[2], valinit=0, valfmt='%0.0f')
-
-    def update(val):
-        index = val
-        p.set_data(data[:,:,index])
-        fig.canvas.draw()
-
-    slider.on_changed(update)
-    plt.show()
-    return p, slider
-
-
-def cube_show_slider(cube, axis=2, **kwargs):
-    import matplotlib.pyplot as plt
-    from matplotlib.widgets import Slider, Button, RadioButtons
-    # check dim
-    if not cube.ndim == 3:
-        raise ValueError("cube should be an ndarray with ndim == 3")
-    # generate figure
-    fig = plt.figure()
-    ax = plt.subplot(111)
-    fig.subplots_adjust(left=0.25, bottom=0.25)
-
-    # select first image
-    s = [slice(0, 1) if i == axis else slice(None) for i in range(3)]
-    im = cube[s].squeeze()
-
-    # display image
-    l = ax.imshow(im, **kwargs)
-    axcolor = 'lightgoldenrodyellow'
-    ax = fig.add_axes([0.25, 0.1, 0.65, 0.03], axisbg=axcolor)
-        
-    slider = Slider(ax, 'Axis %i index' % axis, 0, cube.shape[axis] - 1,
-                                        valinit=5, valfmt='%i')
-            
-    def update(val):
-        ind = int(slider.val)
-        s = [slice(ind, ind + 1) if i == axis else slice(None) for i in range(3)]
-        im = cube[s].squeeze()
-        l.set_data(im, **kwargs)
-        fig.canvas.draw()
-        
-    slider.on_changed(update)
-                                                                
-    plt.show()
-
-def plot_controls(turbine):
-    basefile = 'f_params'
-    count = 0
-    cont = True
-    while cont:
-        filename = 'f_params'+str(count)+'.txt'
-        if os.path.exists(filename):
-            f = np.loadtxt(filename,skiprows=5)[:,1:] 
-            plt.plot(f[turbine], label=count)
-        else:
-            cont = False
-        count += 1
-    plt.legend(loc=0)
-    plt.show()
-
 
 def make_movie(time_array,N1,N2):
     

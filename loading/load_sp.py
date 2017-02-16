@@ -1,18 +1,12 @@
 import numpy as np
 import fft_sp as fft
 import os
-
-class Turbine:
-    def __init__(self, turb):
-        self.x = turb[0]
-        self.y = turb[1]
-        self.H = turb[2]
-        self.r = turb[4]
+import ops_sp as ops
 
 class setup: 
     def __init__(self, path='./'):
         data = []
-        with open(path+'NS.setup','r') as f:
+        with open(path+'/NS.setup','r') as f:
             for line in f.readlines():
                 data.append(line.replace('\n','').split(' '))
 
@@ -27,14 +21,22 @@ class setup:
         self.tstop  = float(data[17][0].replace('d','e'))
         self.dt1    = float(data[19][0].replace('d','e'))
         self.dt2    = float(data[21][0].replace('d','e'))
-        self.zmeshf = data[23][0]
-        print(path+self.zmeshf)
+        self.zmeshf = data[25][0]
         if(os.path.exists(path+self.zmeshf)):
-            self.zmesh_cc  = np.loadtxt(path+self.zmeshf,skiprows=2)[::2]
+            self.zmesh_cc  = np.loadtxt(path+self.zmeshf,skiprows=1)[::2]
+            self.zmesh_st  = np.loadtxt(path+self.zmeshf,skiprows=2)[::2]
         else: 
             print('ZMESH file not found.')
             self.zmesh_cc = '0'
+            self.zmesh_st = '0'
 
+def load_zmesh(filename):
+    dummy = np.loadtxt(filename)
+    Nz = dummy[0]
+    zmesh_st = dummy[1::2]
+    zmesh_cc = dummy[2::2]
+
+    return zmesh_cc, zmesh_st
 
 def load_windfarm(filename):
     dummy = np.loadtxt(filename, skiprows=2)
@@ -165,15 +167,16 @@ def load_field_bin(filename, N1, N2, N3):
         stat['w']   = dumm[:,:,:,2]
     return stat
 
-def load_3Dvelocity(filename, N1, N2, N3, precision='double'):
-    shape = (N1, N2, N3, 3)
+def load_3Dvelocity(filename, N1, N2, N3, N4=3, precision='double', verbose=True):
+    shape = (N1, N2, N3, N4)
     if precision=='double':
         dtype = np.float64
     elif precision=='single':
-        print('Single precision')
+        if verbose:
+            print('Single precision')
         dtype = np.float32
     with open(filename, 'rb') as binfile:
-        velocity = np.fromfile(binfile, dtype=dtype).reshape(shape, order='F')
+        velocity = np.fromfile(binfile, dtype=dtype, count=N1*N2*N3*N4).reshape(shape, order='F')
     return velocity
 
 def load_BLfieldstat_bin(filename, N1, N2, N3, N4=11, Nload=11):
@@ -190,13 +193,20 @@ def load_BLfieldstat_bin(filename, N1, N2, N3, N4=11, Nload=11):
             stat[names[i]] = dumm[:,:,:,i]
     return stat
 
-def load_BLfield_real(filename, **kwargs):
-    if('Nx' in kwargs):
-        BL = load_BLfield(filename,Nx=kwargs['Nx'], Ny=kwargs['Ny'], Nz=kwargs['Nz'])
+def load_BLfield_real(filename, setuppath='./', **kwargs):
+    if('verbose' in kwargs):
+        verbose = kwargs['verbose']
     else:
-        BL = load_BLfield(filename)
+        verbose = True
+    if('Nx' in kwargs):
+        BL = load_BLfield(filename,Nx=kwargs['Nx'], Ny=kwargs['Ny'], Nz=kwargs['Nz'], verbose=verbose)
+    else:
+        BL = load_BLfield(filename, verbose=verbose)
+
+            
     
-    print('Performing c2r ffts')
+    if verbose:
+        print('Performing c2r ffts')
     if('k' in kwargs):
         k = kwargs['k']
         BL['u']  = fft.c2r(BL['uu'][:,:,k], BL['Nx2'], BL['Ny'])
@@ -208,6 +218,17 @@ def load_BLfield_real(filename, **kwargs):
         BL['v']  = fft.c2r(BL['vv'], BL['Nx2'], BL['Ny'])
         BL['w']  = fft.c2r(BL['ww'], BL['Nx2'], BL['Ny'])
         del BL['uu'], BL['vv'], BL['ww'], BL['kx'], BL['ky']
+
+    # Read the setup file
+    if not setuppath==None:
+        stp = setup(path=setuppath)
+    
+        if not (stp.Nx2==BL['Nx2'] and 
+                stp.Ny==BL['Ny'] ):
+                print('NS.setup and fieldfile dimensions inconsistent.')
+        else:
+            # Interpolate w to cc
+            BL['wcc'] = ops.interpolate_st2cc(BL['w'], stp.zmesh_cc, stp.zmesh_st)
 
     return BL
 
@@ -264,7 +285,7 @@ def cube_show_slider(cube, axis=2, **args):
                                                                 
     plt.show()
 
-def load_BLfield(filename, real=False, log=False, cut=False, **kwargs):
+def load_BLfield(filename, real=False, log=False, cut=False, verbose=True, **kwargs):
     BL = {}
     with open(filename, 'rb') as binfile:
         BL['time'] = np.fromfile(binfile, dtype=np.float64, count=1)
@@ -283,28 +304,30 @@ def load_BLfield(filename, real=False, log=False, cut=False, **kwargs):
         BL['Lx'] = kwargs['Lx']
     if('Ly' in kwargs):
         BL['Ly'] = kwargs['Ly']
-    print( '######################' )
-    print( 'BL_field.dat data:' )
-    print( 'time         = ', BL['time'] )
-    print( 'Lx           = ', BL['Lx'] )
-    print( 'Ly           = ', BL['Ly'] )
-    print( 'Nx2          = ', BL['Nx2'] )
-    print( 'Ny           = ', BL['Ny'] )
-    print( 'Nz           = ', BL['Nz'] )
-    print( 'thetaground  = ', BL['thetaground'] )
-    print( 'restsize     = ', dum.size )
-    print( '######################' )
+    if verbose:
+        print( '######################' )
+        print( 'BL_field.dat data:' )
+        print( 'time         = ', BL['time'] )
+        print( 'Lx           = ', BL['Lx'] )
+        print( 'Ly           = ', BL['Ly'] )
+        print( 'Nx2          = ', BL['Nx2'] )
+        print( 'Ny           = ', BL['Ny'] )
+        print( 'Nz           = ', BL['Nz'] )
+        print( 'thetaground  = ', BL['thetaground'] )
+        print( 'restsize     = ', dum.size )
+        print( '######################' )
 
     N1 = int(BL['Nx2']/2+1)
-    N2 = BL['Ny']
-    N3 = BL['Nz']
+    N2 = int(BL['Ny'])
+    N3 = int(BL['Nz'])
 
     amount = N1*N2*N3
+    amount2 = N1*N2*(N3-1)
     shape  = (N1, N2, N3)
     shape2 = (N1, N2, N3-1)
     BL['uu'] = dum[:amount].reshape(shape, order='F')
     BL['vv'] = dum[amount:2*amount].reshape(shape, order='F')
-    BL['ww'] = dum[2*amount:].reshape(shape2, order='F')
+    BL['ww'] = dum[2*amount:2*amount+amount2].reshape(shape2, order='F')
     BL['kx'] = np.array([(i)/BL['Lx']*(2*np.pi) for i in range(N1)])
     BL['ky'] = np.array([(i)/BL['Ly']*(2*np.pi) for i in range(int(-N2/2+1), int(N2/2+1))])
     

@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def generate(dx_turb=.004, Ct_tower=1.2, 
+def generate(dx_turb=.004, Ct_tower=0., 
         Ct=4./3., timeconstant=.005, powerconstant=0., turbinescaling=1000., 
         plot=False, staggered=False, **kwargs):
 
@@ -18,7 +18,7 @@ def generate(dx_turb=.004, Ct_tower=1.2,
     
     # Farm parameters
     Nrows = 12
-    Ncols = 6
+    Ncols = 10
     
     # Spacing
     if 'xturb' in kwargs:
@@ -33,7 +33,7 @@ def generate(dx_turb=.004, Ct_tower=1.2,
     else:
         print('Using default turbine locations')
         Nturb = Nrows*Ncols
-        Sx = 6*D
+        Sx = 3.6*D
         
         Sy = Ly/Ncols
         
@@ -51,7 +51,8 @@ def generate(dx_turb=.004, Ct_tower=1.2,
         print(ylocs)
         
         xlocs = np.zeros(Nrows)
-        offset = 1.5*Sx
+        #offset = 1.5*Sx
+        offset = .9
         for row in range(Nrows):
             xlocs[row] = offset+row*Sx
         
@@ -101,24 +102,24 @@ def generate(dx_turb=.004, Ct_tower=1.2,
                     plt.plot((xt, xt), (yt_1-D/2, yt_1+D/2), 'k', lw=2) 
     
     # Towerfarm file
-    if 'filename_tower' in kwargs:
-        filenamet = kwargs['filename_tower']
-    else:
-        filenamet = 'tower.setup'
-    with open(filenamet, 'w') as towerfile:
-        towerfile.write(str(Nturb)+'\n')
-        towerfile.write("{:10.7f}".format(Ct_tower) + "{:15.7f}".format(timeconstant)+'\n')
-        for tower in range(Nturb):
-            row = int(tower//Ncols)
-            col = tower - row*Ncols
-            xt = xlocs[row]+dx_turb
-            yt = ylocs[col]
-            if staggered and not np.mod(row,2) == 0:
-                yt = yt+Sy/2
-                yt = yt - int(yt/Ly)*Ly
-            towerfile.write("{:10.7f}".format(xt) + "{:15.7f}".format(yt) + "{:15.7f}".format(zhub) + "{:15.7f}".format(.0045000)+"{:15.7f}".format(zhub)+"{:15.7f}".format(1.5)+'\n')
-            if plot:
-                pass
+#    if 'filename_tower' in kwargs:
+#        filenamet = kwargs['filename_tower']
+#    else:
+#        filenamet = 'tower.setup'
+#    with open(filenamet, 'w') as towerfile:
+#        towerfile.write(str(Nturb)+'\n')
+#        towerfile.write("{:10.7f}".format(Ct_tower) + "{:15.7f}".format(timeconstant)+'\n')
+#        for tower in range(Nturb):
+#            row = int(tower//Ncols)
+#            col = tower - row*Ncols
+#            xt = xlocs[row]+dx_turb
+#            yt = ylocs[col]
+#            if staggered and not np.mod(row,2) == 0:
+#                yt = yt+Sy/2
+#                yt = yt - int(yt/Ly)*Ly
+#            towerfile.write("{:10.7f}".format(xt) + "{:15.7f}".format(yt) + "{:15.7f}".format(zhub) + "{:15.7f}".format(.0045000)+"{:15.7f}".format(zhub)+"{:15.7f}".format(1.5)+'\n')
+#            if plot:
+#                pass
 #                plt.plot((xt, xt),(yt,yt),'or',mec='r')
 
     if plot:

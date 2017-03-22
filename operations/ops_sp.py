@@ -35,7 +35,7 @@ def stack_velocity(bl):
     """
     return np.stack((bl['u'], bl['v'], bl['wcc']), axis=3)
 
-def calc_vorticity(bl, dx, dy, dz):
+def calc_vorticity(bl, dx=1, dy=1, dz=1):
     """
     function calc_vorticity
 
@@ -45,6 +45,8 @@ def calc_vorticity(bl, dx, dy, dz):
     # Vorticity = [ dw/dy - dv/dz, du/dz - dw/dx, dv/dx - du/dy ]
 
     # First, calculate the gradient tensor
+    if dx==1: # no kwargs given.. automatically determine grid spacings
+        dx = bl['Lx']/bl['Nx2']; dy = bl['Ly']/bl['Ny']; dz = 1/bl['Nz']
     velocity = stack_velocity(bl)
     grad = calc_gradient(velocity, dx, dy, dz)
 

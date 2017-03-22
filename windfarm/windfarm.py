@@ -151,17 +151,17 @@ class Windfarm:
         else:
             yaw = np.loadtxt(self.path+'/Turbine_yaw.dat', skiprows=7)[:,1:]
             for it, turbine in enumerate(self.turbines):
-                if it==0:
-                    c = 'r'
-                elif it==1:
-                    c = 'g'
-                elif it==2:
-                    c = 'b'
-                else:
-                    c = 'k'
+        #        if it==0:
+        #            c = 'r'
+        #        elif it==1:
+        #            c = 'g'
+        #        elif it==2:
+        #            c = 'b'
+        #        else:
+        #            c = 'k'
                 angle = yaw[index, it]*np.pi/180
                 plt.plot((turbine.x - turbine.r*np.sin(angle), turbine.x + turbine.r*np.sin(angle)),
-                         (turbine.y + turbine.r*np.cos(angle), turbine.y - turbine.r*np.cos(angle)), c, lw=2)
+                         (turbine.y + turbine.r*np.cos(angle), turbine.y - turbine.r*np.cos(angle)), color, lw=2)
 
 
 
@@ -179,8 +179,12 @@ def countrows(filename, verbose):
     if os.path.exists(filename):
         Nturb = np.int(np.genfromtxt(filename, max_rows=1))
         dummyfarm = np.loadtxt(filename, skiprows=2)
-        Ncols = np.size(np.extract(dummyfarm[:,0]==dummyfarm[0,0], dummyfarm[:,0]))
-        Nrows = np.size(np.extract(dummyfarm[:,1]==dummyfarm[0,1], dummyfarm[:,1]))
+        if dummyfarm.shape[0] == dummyfarm.size:
+            Ncols = 1
+            Nrows = 1
+        else:
+            Ncols = np.size(np.extract(dummyfarm[:,0]==dummyfarm[0,0], dummyfarm[:,0]))
+            Nrows = np.size(np.extract(dummyfarm[:,1]==dummyfarm[0,1], dummyfarm[:,1]))
         
         if not Nturb == Nrows*Ncols:
             print('Automatic row & column identification failed.')
@@ -211,9 +215,13 @@ def load_windfarm(filename, Nrows, Ncols):
         if dummy.size==11:
             windfarm.append(Turbine(dummy, 1, 1))
         else:
-            for index, turbine_data in enumerate(dummy):
-                row, col = get_row_col(index, Ncols)
-                windfarm.append(Turbine(turbine_data, row, col))
+            if dummy.shape[0] == dummy.size: # dummy is a 1D array (i.e. single turbine farm)
+                windfarm.append(Turbine(dummy, 0, 0))
+
+            else:
+                for index, turbine_data in enumerate(dummy):
+                    row, col = get_row_col(index, Ncols)
+                    windfarm.append(Turbine(turbine_data, row, col))
         return windfarm, timeconstant
     else:
         print( 'windfarm.setup not found', filename )

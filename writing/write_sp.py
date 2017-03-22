@@ -1,5 +1,36 @@
 import numpy as np
 import fft_sp as fft
+import os
+
+def create_vapor_file(filename, bl, varstring='u'):
+
+    # bl is a container dictionary, can originate from read_BLfield, or handmade, the following should be contained:
+    Nx = bl['Nx2'][0]; Ny = bl['Ny'][0]; Nz = bl['Nz'][0]
+    Lx = bl['Lx'][0];  Ly = bl['Ly'][0]; Lz = 1.0 # hardcoded height!
+    field = bl[varstring]
+
+    # First create the vdf container file
+    print(Nx, Ny, Nz, Lx, Ly, Lz)
+    vdf_createstring = 'vdfcreate -dimension {:d}x{:d}x{:d} -extents 0:0:0:{:4.4f}:{:4.4f}:{:4.4f} -vars3d '.format(Nx, Ny, Nz, Lx, Ly, Lz)+varstring+' '+filename
+
+    print('VDF Creation: ')
+    print(vdf_createstring)
+
+    # Execute
+    os.system(vdf_createstring)
+
+    # Next, dump the field contents to file
+    tmp_file = 'temp.tmp'
+    with open(tmp_file, 'wb') as binfile_write:
+        field.astype(np.float32).tofile(binfile_write)
+
+    # Finally, add the fields to the vapor vdf container
+    vdf_addstring = 'raw2vdf -varname '+varstring+' '+filename+' '+tmp_file
+    print('VDF Add fields: ')
+    print(vdf_addstring)
+    # Execute
+    os.system(vdf_addstring)
+    os.system('rm '+tmp_file)
 
 def create_constant_field(filename, Nx, Ny, Nz, Lx, Ly, Lz, value):
     """

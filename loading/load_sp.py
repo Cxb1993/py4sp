@@ -198,7 +198,7 @@ def load_BLfieldstat_bin(filename, N1, N2, N3, N4=11, Nload=11):
             stat[names[i]] = dumm[:,:,:,i]
     return stat
 
-def load_BLfield_real(filename, setuppath='./', **kwargs):
+def load_BLfield_real(filename='BL_field.dat', setuppath='./', **kwargs):
     if('verbose' in kwargs):
         verbose = kwargs['verbose']
     else:

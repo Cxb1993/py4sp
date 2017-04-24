@@ -89,6 +89,11 @@ def load_plane(filename, N1, N2):
         u = np.fromfile(binfile, dtype=np.float64).reshape((N1, N2), order='F')
     return u
 
+def load_plane_single(filename, N1, N2):
+    with open(filename,'rb') as binfile:
+        u = np.fromfile(binfile, dtype=np.float32).reshape((N1, N2), order='F')
+    return u
+
 def load_spectral_field(filename, N1, N2, N3, N4):
     dummy = np.loadtxt(filename, skiprows=7)
     spectral = {}

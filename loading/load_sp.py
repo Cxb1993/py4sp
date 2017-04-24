@@ -45,7 +45,7 @@ def load_windfarm(filename):
         windfarm.append(Turbine(turbine_data))
     return windfarm
 
-def load_NSp(filename):
+def load_NSp(filename='NS_post1.dat'):
     dummy = np.loadtxt(filename, skiprows=1)
     NSp = {}
     NSp['t'] = dummy[:,0]

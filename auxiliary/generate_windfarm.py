@@ -17,8 +17,8 @@ def generate(dx_turb=.004, Ct_tower=0.,
     zhub = .1
     
     # Farm parameters
-    Nrows = 12
-    Ncols = 10
+    Nrows = 20
+    Ncols = 5
     
     # Spacing
     if 'xturb' in kwargs:
@@ -33,9 +33,9 @@ def generate(dx_turb=.004, Ct_tower=0.,
     else:
         print('Using default turbine locations')
         Nturb = Nrows*Ncols
-        Sx = 3.6*D
+        Sx = 7*D
         
-        Sy = Ly/Ncols
+        Sy = 5*D 
         
         print('Sx/D = ', Sx/D)
         print('Sy/D = ', Sy/D)
@@ -44,7 +44,7 @@ def generate(dx_turb=.004, Ct_tower=0.,
         
         ylocs = np.zeros(Ncols)
         for col in range(Ncols):
-            offset = Sy/2
+            offset = 1.45
             ylocs[col] = offset+col*Sy
 
         print('Y locations: ')

@@ -4,11 +4,12 @@
 import numpy as np
 import windfarm as wf
 
-outputfile = "farm_disks.vms"
+outputfile = "farm_pump_wide.vms"
 modelfile  = "Disco_antiwarping-10mmx0.6mm.stl"
 
 # Expand this to read from windfarm file...
-farm = wf.Windfarm(Nrows=12, Ncols=6)
+farm = wf.Windfarm(path='/scratch/leuven/306/vsc30627/adjoint_movie/run/')
+farm = wf.Windfarm(path='/staging/leuven/stg_00010/wim/PumpingTurbine/turbulent_6D_6D_6D_wide_inphase/reference/')
 z = 0.1
 sc = 0.010
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+
+<ModelScene>
+
+<File>Disco_antiwarping-10mmx0.6mm.stl</File>
+
+<!-- ts 0 --><Timestep>
+
+
+<Transform>
+<translate>    0.5900    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    1.2000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    1.8000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.4000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+</Timestep>
+
+</ModelScene>

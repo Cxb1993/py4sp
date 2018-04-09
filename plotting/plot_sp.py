@@ -47,7 +47,7 @@ def plot_turbines_topview(filename):
         ycoords = np.array([ycoord - radius, ycoord + radius])
         plt.plot((xcoord, xcoord), ycoords, 'k', lw=2)
 
-def movie_xy(k, dt, var='u', setuppath='./../', pausetime=0.1, **kwargs):
+def movie_xy(k, dt, var='u', setuppath='./../', pausetime=0.1, windfarmyaw=True, **kwargs):
     """
     function movie_xy
 
@@ -80,15 +80,20 @@ def movie_xy(k, dt, var='u', setuppath='./../', pausetime=0.1, **kwargs):
     else:
         cmap = 'jet'
 
+    if windfarmyaw:
+        farm = wf.Windfarm(path=setuppath)
+
     if 'tstop' in kwargs:
         t = np.arange(kwargs['tstart'], kwargs['tstop'], dt)
         print('Making movie for t = ', t)
-        for tim in t:
+        for tind, tim in enumerate(t):
             plt.clf()
             print('Plotting t =', tim)
             filename = var+'_zplane_k{:03d}_t_{:4.4f}.dat'.format(k, tim)
             plt.title(tim)
             plot_planexy(filename,show=False,prin=False,clim=cl,cm=cmap)
+            if windfarmyaw:
+                farm.plot_turbines_yaw(index=tind)
             plt.pause(pausetime)
     else:
         print('Automatic timeloop not yet implemented')
@@ -109,12 +114,13 @@ def plot_planexy(filename, Nx=0, Ny=0, show=True, prin=True,**kwargs):
         print('Taking grid dimensions from input parameters')
         Nxd = Nx
         Nyd = Ny
-    data = lsp.load_plane(filename, Nxd, Nyd)
+#    data = lsp.load_plane(filename, Nxd, Nyd)
+    data = lsp.load_plane_single(filename, Nxd, Nyd)
     if 'cm' in kwargs:
         cmap = kwargs['cm']
     else:
         cmap = 'jet'
-    plt.imshow(np.flipud(np.transpose(data)), extent=(0, setup.Lx, 0, setup.Ly),cmap=cmap); plt.colorbar()
+    plt.imshow(np.flipud(np.transpose(data)), extent=(0, setup.Lx, 0, setup.Ly),cmap=cmap, interpolation='bilinear'); plt.colorbar()
     if 'clim' in kwargs:
         plt.clim(kwargs['clim'])
     if show:

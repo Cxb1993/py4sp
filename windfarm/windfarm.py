@@ -5,7 +5,7 @@ import sys
 import os
 
 class Windfarm:
-    def __init__(self, Nrows=0, Ncols=0, path='./', windpowerfile='Windpower.dat',windfarmfile='windfarm.setup', controlfile='control.dat', timestep=.00075, ct_filt_init=2, load_measurements=False, tau=-1, verbose=True):
+    def __init__(self, Nrows=0, Ncols=0, path='./', windpowerfile='Windpower.dat',windfarmfile='windfarm.setup', controlfile='control.dat', yawfile='Turbine_yaw.dat',ctfiltfile='Ct_filtered.dat', timestep=.00075, ct_filt_init=2, load_measurements=False, tau=-1, verbose=True, reftime=1):
         path                             = path+'/'
         self.path                        = path
         if Nrows==0 or Ncols==0:
@@ -16,6 +16,7 @@ class Windfarm:
         if not tau == -1:
             self.timeconstant=tau/1000
         self.wptime, self.windpower, self.thrustforce = load_windpower(path+windpowerfile, self.Nrows, self.Ncols)
+        self.wptime = self.wptime*reftime
         self.meanwindpower               = np.mean(self.windpower, 2)
         self.totalpower                  = np.sum(np.sum(self.windpower,0),0)
         self.power_per_row               = np.mean(self.meanwindpower,1) 
@@ -31,6 +32,10 @@ class Windfarm:
 
         # Load the disk velocity file if it exists
         self.diskvelocity               = load_upstream_velocity_file(path+'Velocity_upstream_0D.dat', self.Nrows, self.Ncols)
+
+        # Load the turbine yawing if it exists
+        self.yaw                        = load_yawfile(path+yawfile, self.Nrows, self.Ncols)
+        self.ctfilt                     = load_yawfile(path+ctfiltfile, self.Nrows, self.Ncols)
 
         # Upstream measurements (if existing)
         if load_measurements:
@@ -67,7 +72,6 @@ class Windfarm:
 
 
         
-
     def plot_power_per_row(self, show=True, lw=1, ls='-', mfc='k', mec='k', mew=1, xlabel='row', **kwargs):
         if 'normalization' in kwargs:
             normalization = kwargs['normalization']
@@ -144,6 +148,39 @@ class Windfarm:
         if show:
             plt.show()
 
+    def plot_turbines_ct_yaw(self, index, ctmax = 2.5, yawfile='Turbine_yaw.dat', ctfile='Ct_filtered.dat'):
+        if not os.path.exists(self.path+yawfile):
+            print('Yawing file not found...')
+        else:
+            yaw = np.loadtxt(self.path+yawfile, skiprows=7)[:,1:]
+            ctfilt = np.loadtxt(self.path+ctfile, skiprows=7)[:,1:]
+            for it, turbine in enumerate(self.turbines):
+        #        if it==0:
+        #            c = 'r'
+        #        elif it==1:
+        #            c = 'g'
+        #        elif it==2:
+        #            c = 'b'
+        #        else:
+        #            c = 'k'
+                angle = yaw[index, it]*np.pi/180
+                ctfilt_val = 1 - ctfilt[index, it]/ctmax
+                plt.plot((turbine.x - turbine.r*np.sin(angle), turbine.x + turbine.r*np.sin(angle)),
+                         (turbine.y + turbine.r*np.cos(angle), turbine.y - turbine.r*np.cos(angle)), color=str(ctfilt_val), lw=2)
+
+
+    def plot_turbines_yaw_mean(self, indexstart, indexstop, color='k'):
+        if not os.path.exists(self.path+'/Turbine_yaw.dat'):
+            print('Yawing file not found...')
+
+        else:
+            yaw = np.loadtxt(self.path+'/Turbine_yaw.dat', skiprows=7)[:,1:]
+            for it, turbine in enumerate(self.turbines):
+                angle = np.mean(yaw[indexstart:indexstop, it])*np.pi/180
+                plt.plot((turbine.x - turbine.r*np.sin(angle), turbine.x + turbine.r*np.sin(angle)),
+                         (turbine.y + turbine.r*np.cos(angle), turbine.y - turbine.r*np.cos(angle)), color, lw=2)
+
+
     def plot_turbines_yaw(self, index, color='k'):
         if not os.path.exists(self.path+'/Turbine_yaw.dat'):
             print('Yawing file not found...')
@@ -163,6 +200,31 @@ class Windfarm:
                 plt.plot((turbine.x - turbine.r*np.sin(angle), turbine.x + turbine.r*np.sin(angle)),
                          (turbine.y + turbine.r*np.cos(angle), turbine.y - turbine.r*np.cos(angle)), color, lw=2)
 
+    def plot_turbines_yaw_color(self, index, color='k'):
+        if not os.path.exists(self.path+'/Turbine_yaw.dat'):
+            print('Yawing file not found...')
+
+        else:
+            yaw = np.loadtxt(self.path+'/Turbine_yaw.dat', skiprows=7)[:,1:]
+            for it, turbine in enumerate(self.turbines):
+                angle = yaw[index, it]*np.pi/180
+                color='C'+str(turbine.col)
+                plt.plot((turbine.x - turbine.r*np.sin(angle), turbine.x + turbine.r*np.sin(angle)),
+                         (turbine.y + turbine.r*np.cos(angle), turbine.y - turbine.r*np.cos(angle)), color, lw=2)
+
+    def plot_turbines_yaw_colorpaper(self, index, color='k'):
+        if not os.path.exists(self.path+'/Turbine_yaw.dat'):
+            print('Yawing file not found...')
+
+        else:
+            yaw = np.loadtxt(self.path+'/Turbine_yaw.dat', skiprows=7)[:,1:]
+            for it, turbine in enumerate(self.turbines):
+                angle = yaw[index, it]*np.pi/180
+                color='C'+str(turbine.col)
+                if turbine.col==1 or turbine.col==2:
+                    color='k'
+                plt.plot((turbine.x - turbine.r*np.sin(angle), turbine.x + turbine.r*np.sin(angle)),
+                         (turbine.y + turbine.r*np.cos(angle), turbine.y - turbine.r*np.cos(angle)), color, lw=2)
 
 
 class Turbine:
@@ -431,3 +493,17 @@ def time_filter_controls(controls, timeconstant, timestep, Nrows, Ncols, path='.
         controls_filt[:,:,t] = (1-alfa)*controls_filt[:,:,t-1] + alfa*controls[:,:,t]
     
     return controls_filt
+
+def load_yawfile(file, Nrows, Ncols):
+    if os.path.exists(file):
+        dum = np.loadtxt(file, skiprows=8)[:,1:]
+
+        nt = np.shape(dum)[0]
+        yaw = np.zeros((Nrows, Ncols, nt))
+        for num in range(Nrows*Ncols):
+            row, col = get_row_col(num, Ncols)
+            yaw[row, col, :] = dum[:, num]
+        return yaw
+    else:
+        return 0
+

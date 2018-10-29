@@ -8,7 +8,7 @@ outputfile = "farm_towers.vms"
 modelfile  = "nrel5MW-tower.stl"
 
 # Expand this to read from windfarm file...
-farm = wf.Windfarm(path='/scratch/leuven/306/vsc30627/adjoint_movie/run/')
+farm = wf.Windfarm(path='./')
 z = 0.0
 sc = 0.011
 

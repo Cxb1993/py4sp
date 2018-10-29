@@ -39,33 +39,33 @@ class Windfarm:
 
         # Upstream measurements (if existing)
         if load_measurements:
-            self.upstream_vel                = load_upstream_vel(path, self.Nrows, self.Ncols)
-            self.upstream_shear_0D           = load_upstream_velocity_file(path+'Shear_upstream_0D.dat', self.Nrows, self.Ncols)
-            self.upstream_vel_top_0D         = load_upstream_velocity_file(path+'Velocity_upstream_top_0D.dat', self.Nrows, self.Ncols)
-            self.upstream_vel_bot_0D         = load_upstream_velocity_file(path+'Velocity_upstream_bot_0D.dat', self.Nrows, self.Ncols)
-            self.upstream_vel_left_0D        = load_upstream_velocity_file(path+'Velocity_upstream_left_0D.dat', self.Nrows, self.Ncols)
-            self.upstream_vel_right_0D       = load_upstream_velocity_file(path+'Velocity_upstream_right_0D.dat', self.Nrows, self.Ncols)
-            self.upstream_shear_1D           = load_upstream_velocity_file(path+'Shear_upstream_1D.dat', self.Nrows, self.Ncols)
-            self.upstream_vel_top_1D         = load_upstream_velocity_file(path+'Velocity_upstream_top_1D.dat', self.Nrows, self.Ncols)
-            self.upstream_vel_bot_1D         = load_upstream_velocity_file(path+'Velocity_upstream_bot_1D.dat', self.Nrows, self.Ncols)
-            self.upstream_vel_left_1D        = load_upstream_velocity_file(path+'Velocity_upstream_left_1D.dat', self.Nrows, self.Ncols)
-            self.upstream_vel_right_1D       = load_upstream_velocity_file(path+'Velocity_upstream_right_1D.dat', self.Nrows, self.Ncols)
+            self.upstream_vel                = load_upstream_vel(path+'/measurements/', self.Nrows, self.Ncols)
+            #self.upstream_shear_0D           = load_upstream_velocity_file(path+'Shear_upstream_0D.dat', self.Nrows, self.Ncols)
+            #self.upstream_vel_top_0D         = load_upstream_velocity_file(path+'Velocity_upstream_top_0D.dat', self.Nrows, self.Ncols)
+            #self.upstream_vel_bot_0D         = load_upstream_velocity_file(path+'Velocity_upstream_bot_0D.dat', self.Nrows, self.Ncols)
+            #self.upstream_vel_left_0D        = load_upstream_velocity_file(path+'Velocity_upstream_left_0D.dat', self.Nrows, self.Ncols)
+            #self.upstream_vel_right_0D       = load_upstream_velocity_file(path+'Velocity_upstream_right_0D.dat', self.Nrows, self.Ncols)
+            #self.upstream_shear_1D           = load_upstream_velocity_file(path+'Shear_upstream_1D.dat', self.Nrows, self.Ncols)
+            #self.upstream_vel_top_1D         = load_upstream_velocity_file(path+'Velocity_upstream_top_1D.dat', self.Nrows, self.Ncols)
+            #self.upstream_vel_bot_1D         = load_upstream_velocity_file(path+'Velocity_upstream_bot_1D.dat', self.Nrows, self.Ncols)
+            #self.upstream_vel_left_1D        = load_upstream_velocity_file(path+'Velocity_upstream_left_1D.dat', self.Nrows, self.Ncols)
+            #self.upstream_vel_right_1D       = load_upstream_velocity_file(path+'Velocity_upstream_right_1D.dat', self.Nrows, self.Ncols)
 
-            self.reynolds_1D                 = load_upstream_Reynolds_file(path+'Reynolds_upstream_1D.dat',       self.Nrows, self.Ncols)
-            if not type(self.reynolds_1D) == 'int':
-                self.tke_1D                  = 1/2*(self.reynolds_1D[:,:,:,0,0] + self.reynolds_1D[:,:,:,1,1] + self.reynolds_1D[:,:,:,2,2])
-            self.reynolds_left_1D            = load_upstream_Reynolds_file(path+'Reynolds_upstream_left_1D.dat',  self.Nrows, self.Ncols)
-            self.reynolds_right_1D           = load_upstream_Reynolds_file(path+'Reynolds_upstream_right_1D.dat', self.Nrows, self.Ncols)
-            self.reynolds_top_1D             = load_upstream_Reynolds_file(path+'Reynolds_upstream_top_1D.dat',   self.Nrows, self.Ncols)
-            self.reynolds_bot_1D             = load_upstream_Reynolds_file(path+'Reynolds_upstream_bot_1D.dat',   self.Nrows, self.Ncols)
+            #self.reynolds_1D                 = load_upstream_Reynolds_file(path+'Reynolds_upstream_1D.dat',       self.Nrows, self.Ncols)
+            #if not type(self.reynolds_1D) == 'int':
+            #    self.tke_1D                  = 1/2*(self.reynolds_1D[:,:,:,0,0] + self.reynolds_1D[:,:,:,1,1] + self.reynolds_1D[:,:,:,2,2])
+            #self.reynolds_left_1D            = load_upstream_Reynolds_file(path+'Reynolds_upstream_left_1D.dat',  self.Nrows, self.Ncols)
+            #self.reynolds_right_1D           = load_upstream_Reynolds_file(path+'Reynolds_upstream_right_1D.dat', self.Nrows, self.Ncols)
+            #self.reynolds_top_1D             = load_upstream_Reynolds_file(path+'Reynolds_upstream_top_1D.dat',   self.Nrows, self.Ncols)
+            #self.reynolds_bot_1D             = load_upstream_Reynolds_file(path+'Reynolds_upstream_bot_1D.dat',   self.Nrows, self.Ncols)
 
-            self.reynolds_0D                 = load_upstream_Reynolds_file(path+'Reynolds_upstream_0D.dat',       self.Nrows, self.Ncols)
-            if not type(self.reynolds_0D) == 'int':
-                self.tke_0D                  = 1/2*(self.reynolds_0D[:,:,:,0,0] + self.reynolds_0D[:,:,:,1,1] + self.reynolds_0D[:,:,:,2,2])
-            self.reynolds_left_0D            = load_upstream_Reynolds_file(path+'Reynolds_upstream_left_0D.dat',  self.Nrows, self.Ncols)
-            self.reynolds_right_0D           = load_upstream_Reynolds_file(path+'Reynolds_upstream_right_0D.dat', self.Nrows, self.Ncols)
-            self.reynolds_top_0D             = load_upstream_Reynolds_file(path+'Reynolds_upstream_top_0D.dat',   self.Nrows, self.Ncols)
-            self.reynolds_bot_0D             = load_upstream_Reynolds_file(path+'Reynolds_upstream_bot_0D.dat',   self.Nrows, self.Ncols)
+            #self.reynolds_0D                 = load_upstream_Reynolds_file(path+'Reynolds_upstream_0D.dat',       self.Nrows, self.Ncols)
+            #if not type(self.reynolds_0D) == 'int':
+            #    self.tke_0D                  = 1/2*(self.reynolds_0D[:,:,:,0,0] + self.reynolds_0D[:,:,:,1,1] + self.reynolds_0D[:,:,:,2,2])
+            #self.reynolds_left_0D            = load_upstream_Reynolds_file(path+'Reynolds_upstream_left_0D.dat',  self.Nrows, self.Ncols)
+            #self.reynolds_right_0D           = load_upstream_Reynolds_file(path+'Reynolds_upstream_right_0D.dat', self.Nrows, self.Ncols)
+            #self.reynolds_top_0D             = load_upstream_Reynolds_file(path+'Reynolds_upstream_top_0D.dat',   self.Nrows, self.Ncols)
+            #self.reynolds_bot_0D             = load_upstream_Reynolds_file(path+'Reynolds_upstream_bot_0D.dat',   self.Nrows, self.Ncols)
 
         self.Sx = 0.
         self.Sy = 0.

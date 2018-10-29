@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+
+<ModelScene>
+
+<File>nrel5MW-tower.stl</File>
+
+<!-- ts 0 --><Timestep>
+
+
+<Transform>
+<translate>    0.88900    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    0.88900    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    0.88900    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    0.88900    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    0.88900    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    0.88900    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    1.5000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    1.5000    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    1.5000    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    1.5000    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    1.5000    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    1.5000    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.1000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.1000    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.1000    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.1000    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.1000    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.1000    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.7000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.7000    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.7000    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.7000    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.7000    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    2.7000    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.3000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.3000    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.3000    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.3000    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.3000    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.3000    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.9000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.9000    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.9000    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.9000    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.9000    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    3.9000    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    4.5000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    4.5000    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    4.5000    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    4.5000    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    4.5000    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    4.5000    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.1000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.1000    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.1000    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.1000    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.1000    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.1000    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.7000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.7000    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.7000    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.7000    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.7000    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    5.7000    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.3000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.3000    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.3000    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.3000    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.3000    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.3000    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.9000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.9000    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.9000    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.9000    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.9000    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    6.9000    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    7.5000    0.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    7.5000    0.9000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    7.5000    1.5000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    7.5000    2.1000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    7.5000    2.7000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+<Transform>
+<translate>    7.5000    3.3000    0.1000</translate>
+<rotate> 0 1 0 90 </rotate>
+<scale>    0.0100    0.0100    0.0100</scale>
+<scale>0.5 0.5 0.5</scale>
+</Transform>
+
+
+</Timestep>
+
+</ModelScene>

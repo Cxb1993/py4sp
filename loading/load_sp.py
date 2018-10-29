@@ -11,17 +11,9 @@ class setup:
                 data.append(line.replace('\n','').split(' '))
 
         self.case   = data[1][0]
-        self.thermo = data[3][0]
-        self.ekman  = data[5][0]
-        self.Nx2    = int(data[7][0])
-        self.Ny     = int(data[7][1])
-        self.Lx     = float(data[9][0].replace('d','e'))
-        self.Ly     = float(data[9][1].replace('d','e'))
-        self.tstart = float(data[15][0].replace('d','e'))
-        self.tstop  = float(data[17][0].replace('d','e'))
-        self.dt1    = float(data[19][0].replace('d','e'))
-        self.dt2    = float(data[21][0].replace('d','e'))
-        self.zmeshf = data[25][0]
+        self.Nx2    = int(data[3][0])
+        self.Ny     = int(data[3][1])
+        self.zmeshf = data[21][0]
         if(os.path.exists(path+self.zmeshf)):
             self.zmesh_cc  = np.loadtxt(path+self.zmeshf,skiprows=1)[::2]
             self.zmesh_st  = np.loadtxt(path+self.zmeshf,skiprows=2)[::2]
@@ -198,15 +190,15 @@ def load_BLfieldstat_bin(filename, N1, N2, N3, N4=11, Nload=11):
             stat[names[i]] = dumm[:,:,:,i]
     return stat
 
-def load_BLfield_real(filename='BL_field.dat', setuppath='./', **kwargs):
+def load_BLfield_real(filename='BL_field.dat', setuppath='./', therm=False, **kwargs):
     if('verbose' in kwargs):
         verbose = kwargs['verbose']
     else:
         verbose = True
     if('Nx' in kwargs):
-        BL = load_BLfield(filename,Nx=kwargs['Nx'], Ny=kwargs['Ny'], Nz=kwargs['Nz'], verbose=verbose)
+        BL = load_BLfield(filename,Nx=kwargs['Nx'], Ny=kwargs['Ny'], Nz=kwargs['Nz'], verbose=verbose, therm=therm)
     else:
-        BL = load_BLfield(filename, verbose=verbose)
+        BL = load_BLfield(filename, verbose=verbose, therm=therm)
 
             
     
@@ -218,11 +210,17 @@ def load_BLfield_real(filename='BL_field.dat', setuppath='./', **kwargs):
         BL['v']  = fft.c2r(BL['vv'][:,:,k], BL['Nx2'], BL['Ny'])
         BL['w']  = fft.c2r(BL['ww'][:,:,k], BL['Nx2'], BL['Ny'])
         del BL['uu'], BL['vv'], BL['ww'], BL['kx'], BL['ky']
+        if therm:
+            BL['th']  = fft.c2r(BL['thth'][:,:,k], BL['Nx2'], BL['Ny'])
+            del BL['thth']
     else:
         BL['u']  = fft.c2r(BL['uu'], BL['Nx2'], BL['Ny'])
         BL['v']  = fft.c2r(BL['vv'], BL['Nx2'], BL['Ny'])
         BL['w']  = fft.c2r(BL['ww'], BL['Nx2'], BL['Ny'])
         del BL['uu'], BL['vv'], BL['ww'], BL['kx'], BL['ky']
+        if therm:
+            BL['th']  = fft.c2r(BL['thth'], BL['Nx2'], BL['Ny'])
+            del BL['thth']
 
     # Read the setup file
     if not setuppath==None:
@@ -290,7 +288,7 @@ def cube_show_slider(cube, axis=2, **args):
                                                                 
     plt.show()
 
-def load_BLfield(filename, real=False, log=False, cut=False, verbose=True, **kwargs):
+def load_BLfield(filename, real=False, log=False, cut=False, verbose=True, therm=False, **kwargs):
     BL = {}
     with open(filename, 'rb') as binfile:
         BL['time'] = np.fromfile(binfile, dtype=np.float64, count=1)
@@ -299,7 +297,9 @@ def load_BLfield(filename, real=False, log=False, cut=False, verbose=True, **kwa
         BL['Nx2'] = np.fromfile(binfile, dtype=np.int32, count=1)
         BL['Ny'] = np.fromfile(binfile, dtype=np.int32, count=1)
         BL['Nz'] = np.fromfile(binfile, dtype=np.int32, count=1)
-        BL['thetaground'] = np.fromfile(binfile, dtype=np.float64, count=1)
+        BL['alpha'] = np.fromfile(binfile, dtype=np.float64, count=1)
+        if therm:
+            BL['thetaground'] = np.fromfile(binfile, dtype=np.float64, count=1)
         dum = np.fromfile(binfile,dtype=np.complex128)
     if('Nx' in kwargs):
         BL['Nx2'] = kwargs['Nx']
@@ -318,7 +318,7 @@ def load_BLfield(filename, real=False, log=False, cut=False, verbose=True, **kwa
         print( 'Nx2          = ', BL['Nx2'] )
         print( 'Ny           = ', BL['Ny'] )
         print( 'Nz           = ', BL['Nz'] )
-        print( 'thetaground  = ', BL['thetaground'] )
+        print( 'alpha        = ', BL['alpha'] )
         print( 'restsize     = ', dum.size )
         print( '######################' )
 
@@ -333,10 +333,18 @@ def load_BLfield(filename, real=False, log=False, cut=False, verbose=True, **kwa
     BL['uu'] = dum[:amount].reshape(shape, order='F')
     BL['vv'] = dum[amount:2*amount].reshape(shape, order='F')
     BL['ww'] = dum[2*amount:2*amount+amount2].reshape(shape2, order='F')
+    # check if file contains thermal information
+    if therm:
+        print('Loading theta data')
+        BL['thth'] = dum[2*amount+amount2:3*amount+amount2].reshape(shape, order='F')
+
+
     BL['kx'] = np.array([(i)/BL['Lx']*(2*np.pi) for i in range(N1)])
     BL['ky'] = np.array([(i)/BL['Ly']*(2*np.pi) for i in range(int(-N2/2+1), int(N2/2+1))])
     
     BLpostkeys = ['uu','vv','ww']
+    if therm:
+        BLpostkeys.append('thth')
     if cut:
         BL['kx'] = BL['kx'][:-1]
         BL['ky'] = BL['ky'][:-1]

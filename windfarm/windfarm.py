@@ -318,13 +318,16 @@ def load_windpower(filename, Nrows, Ncols):
 
         # Now we remove the zeros that are written at the start of every simulation..
         indices = []
-        for i in range(time.size):
-            if np.all( power[:,:,i] == 0):
-                indices.append(i)
+        if np.all(power == 0):
+            pass
+        else:
+            for i in range(time.size):
+                if np.all( power[:,:,i] == 0):
+                    indices.append(i)
 
-        time = np.delete(time, indices)
-        power = np.delete(power, indices, axis=2)
-        force = np.delete(force, indices, axis=2)
+            time = np.delete(time, indices)
+            power = np.delete(power, indices, axis=2)
+            force = np.delete(force, indices, axis=2)
         
 
         return time, power, force
